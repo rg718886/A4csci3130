@@ -7,7 +7,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import java.util.ArrayList;
 import android.content.Context;
-import android.widget.Toast;
+
 
 
 public class CreateBusinessAcitivity extends Activity {
@@ -19,10 +19,9 @@ public class CreateBusinessAcitivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_business_acitivity);
+        setContentView(R.layout.create_business_activity);
         //Get the app wide shared variables
         appState = ((MyApplicationData) getApplicationContext());
-
         submitButton = (Button) findViewById(R.id.submitButton);
         numberField = (EditText) findViewById(R.id.business_number);
         nameField = (EditText) findViewById(R.id.business_name);
@@ -30,31 +29,22 @@ public class CreateBusinessAcitivity extends Activity {
         provinceFeild = (EditText) findViewById(R.id.province);
         addressFeild = (EditText) findViewById(R.id.address);
     }
-
     public void submitInfoButton(View v) {
         //each entry needs a unique ID
-        String business_number = appState.firebaseReference.push().getKey();
-        String business_name = nameField.getText().toString();
+        String b_number = appState.firebaseReference.push().getKey();
+        String b_name = nameField.getText().toString();
         String primary_b = primaryFeild.getText().toString();
-        String address = addressFeild.getText().toString();
-        String province = provinceFeild.getText().toString();
+        String b_address = addressFeild.getText().toString();
+        String b_province = provinceFeild.getText().toString();
 
-        Business business = new Business(business_number, business_name, primary_b, address, province);
+        Business business = new Business(b_number, b_name, primary_b, b_address, b_province);
+        appState.firebaseReference.child(b_number).setValue(business);
+        finish();
 
-        if(valid_business_info(business)==true){
-            appState.firebaseReference.child(business_number).setValue(business);
-
-            finish();}
-        //if not valid, show message to user
-        else{
-            //this code segment is retrieved from https://developer.android.com/guide/topics/ui/notifiers/toasts.html  : the basics part
-            Context context = getApplicationContext();
-            CharSequence text = "invalid business information, check inputs!";
-            int duration = Toast.LENGTH_SHORT;
-            Toast.makeText(context, text, duration).show();
-        }
 
     }
+
+    //might not use it --> if set rules in fireRules.json
     private boolean valid_business_info(Business business){
 
         ArrayList<String> valid_provinces = new ArrayList<String>();
@@ -74,20 +64,36 @@ public class CreateBusinessAcitivity extends Activity {
         valid_provinces.add("QC");
         valid_provinces.add("SK");
         valid_provinces.add("YT");
-        valid_provinces.add(" ");
-
+        valid_provinces.add("");
         valid_primary_business.add("Fisher");
         valid_primary_business.add("Distributor");
         valid_primary_business.add("Processor");
         valid_primary_business.add("Fish Monger");
-
         temp = true;
 
-        if ( (business.business_number.length()!=9) || (!(2<business.business_name.length() && business.business_name.length()<48))  ||  (valid_primary_business.contains(business.primary_business)==false) || !(business.address.length()<=50) || (valid_provinces.contains(business.province)==false) ){
+        if (!(business.business_number.length()==9)){
             temp=false;
+            return temp;
         }
-        return temp;
+        if (business.business_name.length()< 2 || business.business_name.length()>48){
+            temp=false;
+            return temp;
+        }
+        if (!(business.address.length()<50)){
+            temp=false;
+            return temp;
+        }
+        if (!valid_primary_business.contains(business.primary_business)){
+            temp=false;
+            return temp;
+        }
 
+        if (!valid_provinces.contains(business.province)){
+            temp=false;
+            return temp;
+        }
+        else {
+            return  temp;}
 
     }
 }

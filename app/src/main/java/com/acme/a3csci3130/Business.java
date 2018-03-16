@@ -38,11 +38,7 @@ public class Business implements Serializable {
         result.put("business_number", business_number);
         result.put("business_name", business_name);
         result.put("primary_business", primary_business);
-        
-        if(province.length()==0)
-            result.put("province", province);
-        if (address.length() == 0)
-            result.put("address", address);
+        result.put("province", province);
 
         return result;
     }

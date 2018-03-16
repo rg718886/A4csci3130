@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "904934117497",
+    "firebase_url": "https://csci3130-a4-db.firebaseio.com",
+    "project_id": "csci3130-a4-db",
+    "storage_bucket": "csci3130-a4-db.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:904934117497:android:6409f2945731fca6",
+        "android_client_info": {
+          "package_name": "com.acme.a3csci3130"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "904934117497-hkq743fds915h6lhvkgloaar2ip45rcn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYv1N1thYgg-dHw0IEmQ_eWcJL5z6Cc6w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
